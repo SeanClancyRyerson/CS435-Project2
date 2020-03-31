@@ -1,0 +1,81 @@
+package traverseThisTown;
+import java.util.*;
+import java.util.Stack;
+
+//class Node and Graph taken from the repl as a baseline
+class Node {
+	  public String data;
+	  public List<Node> neighbors;
+	  private boolean visited;
+
+	  public Node(String data) {
+	    this.data = data;
+	    this.neighbors = new ArrayList<>();
+	    this.visited = false;
+	  }
+
+	  public void setVisited() {
+	    visited = true;
+	  }
+
+	  public boolean getVisited() {
+	    return visited;
+	  }
+	}
+
+class Graph{
+	public List<Node> vertices;
+	public Graph() {
+		this.vertices = new ArrayList<>();
+	}
+}
+
+public class TraverseThisTown {
+	
+	
+	
+	public static void main(String[] args) {
+		
+		Graph graph = new Graph();
+		addNode(graph, "a");
+		addNode(graph, "b");
+		
+		addUndirectedEdge(graph.vertices.get(0), graph.vertices.get(1));
+		System.out.println(graph.vertices.get(0).neighbors.get(0).data);
+		
+		HashSet<Node> hash = getAllNodes(graph);
+		System.out.print(hash);
+	}
+	
+	static void addNode(Graph graph, final String nodeVal) {
+		Node temp = new Node(nodeVal);
+		graph.vertices.add(temp);
+	}
+	
+	static void addUndirectedEdge(final Node first, final Node second) {
+		first.neighbors.add(second);
+		second.neighbors.add(first);
+	}
+	
+	static void removeUndirectedEdge(Graph graph, final Node first, final Node second) {
+		for(int i = 0; i < first.neighbors.size(); i++) {
+			if(first.neighbors.get(i).data.equals(second.data)) {
+				first.neighbors.remove(i);
+			}
+		}
+		for(int i = 0; i < second.neighbors.size(); i++) {
+			if(second.neighbors.get(i).data.equals(first.data)) {
+				second.neighbors.remove(i);
+			}
+		}
+	}
+	
+	static HashSet<Node> getAllNodes(Graph graph){
+		HashSet<Node> hash = new HashSet<Node>();
+		for(int i = 0; i < graph.vertices.size(); i++) {
+			hash.add(graph.vertices.get(i));
+		}
+		return hash;
+	}
+
+}
