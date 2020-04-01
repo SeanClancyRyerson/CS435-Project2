@@ -1,0 +1,25 @@
+class GraphSearch{
+	
+	static ArrayList<Node> DFSRec(final Node start, final Node end){
+		ArrayList<Node> path = new ArrayList<Node>();
+		return DFShelper(start, end, path);
+	}
+	
+	static ArrayList<Node> DFShelper(Node start, Node end, ArrayList<Node> path){
+		path.add(start);
+		start.setVisited();
+		while(true) {
+			if(start.equals(end)) {
+				return path;
+			}
+			else {
+				for(int i = 0; i < start.neighbors.size(); i++) {
+					if(!(start.neighbors.get(i).getVisited())){
+							DFSRec(start.neighbors.get(i), end);
+					}
+				}
+			}
+		}
+	}
+	
+}
