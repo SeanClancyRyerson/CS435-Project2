@@ -1,0 +1,20 @@
+	static ArrayList<Node> BFSIter(final Graph graph){
+		ArrayList<Node> arr = new ArrayList<Node>();
+		Queue<Node> q = new LinkedList<>();
+			graph.vertices.get(0).setVisited();
+			arr.add(graph.vertices.get(0));
+			q.add(graph.vertices.get(0));
+			while(!(q.isEmpty())) {
+				Node temp = q.poll();
+				for(int i = 0; i < temp.neighbors.size(); i++) {
+					
+					if(!(temp.neighbors.get(i).getVisited())) {
+						arr.add(temp.neighbors.get(i));
+						q.add(temp.neighbors.get(i));
+						temp.neighbors.get(i).setVisited();
+					}
+						
+				}
+			}
+			return arr;
+	}
