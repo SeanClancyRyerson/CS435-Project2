@@ -1,0 +1,5 @@
+The 10,000 node linked list on a breadth first search will cause the recursive stack to go to 10,000 before it will begin 
+popping off the stack. This is because with the breadth first it will continue to go through the whole list because it 
+will keep finding nodes that have not been visited and never pop off the stack like it wants to. The space complexity would 
+end up being O(n) implicit space where n is 10,000 in this case since it is a linked list. It will cause a stack overflow 
+pretty much every time on my humble computer.
