@@ -1,0 +1,24 @@
+	static void addNode(Graph graph, final String nodeVal) {
+		Node temp = new Node(nodeVal);
+		graph.vertices.add(temp);
+	}
+	
+	static void addDirectedEdge(final Node first, final Node second) {
+		first.neighbors.add(second);
+	}
+	
+	static void removeDirectedEdge(final Node first, final Node second) {
+		for(int i = 0; i < first.neighbors.size(); i++) {
+			if(first.neighbors.get(i).data.equals(second.data)) {
+				first.neighbors.remove(i);
+			}
+		}
+	}
+	
+	static HashSet<Node> getAllNodes(Graph graph){
+		HashSet<Node> hash = new HashSet<Node>();
+		for(int i = 0; i < graph.vertices.size(); i++) {
+			hash.add(graph.vertices.get(i));
+		}
+		return hash;
+	}
