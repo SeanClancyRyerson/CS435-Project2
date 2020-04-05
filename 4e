@@ -1,0 +1,24 @@
+	static ArrayList<Node> mDFS(final Graph graph){
+		ArrayList<Node> order = new ArrayList<Node>();
+		Stack<Node> reverse = new Stack<>();
+		Stack<Node> s = new Stack<>();
+		for(int i = 0; i < graph.vertices.size(); i++) {
+			if(!graph.vertices.get(i).getVisited()) {
+				s.push(graph.vertices.get(i));
+			}
+			while(!s.isEmpty()) {
+				Node temp = s.pop();
+				if(!temp.getVisited()) {
+					temp.setVisited();
+					for(int p = 0; p < temp.neighbors.size(); p++) {
+						s.push(temp.neighbors.get(p));
+					}
+					reverse.add(temp);
+				}
+			}
+		}
+		while(!(reverse.isEmpty())) {
+			order.add(reverse.pop());
+		}
+		return order;
+	}
