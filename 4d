@@ -1,0 +1,28 @@
+	static ArrayList<Node> Kahns(final Graph graph){
+		ArrayList<Node> order = new ArrayList<Node>();
+		int[] arr = new int[graph.vertices.size()];
+		for(int i = 0; i < arr.length; i++) {
+			arr[i] = graph.vertices.get(i).incoming.size();
+		}
+		Queue<Node> q = new LinkedList<>();
+		//check for any nodes that have no incoming edges
+		for(int i = 0; i < arr.length; i++) {
+			if(arr[i] == 0) {
+				q.add(graph.vertices.get(i));
+			}
+		}
+		while(!(q.isEmpty())) {
+			Node temp = q.poll();
+			order.add(temp);
+			for(int i = 0; i < temp.neighbors.size(); i++) {
+				int neigh = Integer.parseInt(temp.neighbors.get(i).data);
+				arr[neigh] = arr[neigh] - 1;
+			}
+			for(int i = 0; i < arr.length; i++) {
+				if(arr[i] == 0) {
+					q.add(graph.vertices.get(i));
+				}
+			}
+		}
+		return order;
+	}
