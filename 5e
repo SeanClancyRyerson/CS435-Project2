@@ -1,0 +1,17 @@
+	static HashMap<Node, Integer> dijkatras(Graph graph, final Node start){
+		HashMap<Node, Integer> map = new HashMap<Node, Integer>();
+		for(int i = 0; i < graph.vertices.size(); i++) {
+			map.put(graph.vertices.get(i), 999);
+		}
+		map.put(start, 0);
+		Queue<Node> q = new LinkedList<Node>();
+		for(int p = 0; p < graph.vertices.size(); p++) {
+			Node curr = graph.vertices.get(p);
+			for(int i = 0; i < curr.edges.size(); i++) {
+				if(map.get(curr.edges.get(i)) > map.get(curr) + curr.edges.get(i).weight) {
+					map.add(curr.edges.get(i).destination, map.get(curr) + curr.edges.get(i).weight);
+				}
+			}
+		}
+		return map;
+	}
