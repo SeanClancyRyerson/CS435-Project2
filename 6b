@@ -1,0 +1,21 @@
+	static Graph createRandomGridGraph(int n) {
+		Graph graf = new Graph();
+		Random rand = new Random();
+		int dataTemp = 0;
+		for(int i = 0; i < n; i++) {
+			for(int p = 0; p < n; p++) {
+				addGridNode(graf, String.valueOf(dataTemp), i, p);
+				dataTemp++;
+				//check to see if goes to the right
+				if(rand.nextBoolean() && p > 0) {
+					addUndirectedEdge(graf.vertices.get(i*n + p - 1), graf.vertices.get(i*n + p));
+				}
+				//check to see if goes bottom
+				if(rand.nextBoolean() && i > 0) {
+					addUndirectedEdge(graf.vertices.get(i*n + p), graf.vertices.get(i*n-i + p));
+				}
+			}
+
+		}
+		return graf;
+	}
