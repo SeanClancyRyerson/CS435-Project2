@@ -1,0 +1,25 @@
+	static void addNode(Graph graph, final String nodeVal) {
+		Node temp = new Node(nodeVal);
+		graph.vertices.add(temp);
+	}
+	
+	static void addWeightedEdge(final Node first, final Node second, final int edgeWeight) {
+		Edge e = new Edge(second, edgeWeight);
+		first.edges.add(e);
+	}
+	
+	static void removeDirectedEdge(final Node first, final Node second) {
+		for(int i = 0; i < first.edges.size(); i++) {
+			if(first.edges.get(i).destination.equals(second)) {
+				first.edges.remove(i);
+			}
+		}
+	}
+	
+	static HashSet<Node> getAllNodes(Graph graph){
+		HashSet<Node> hash = new HashSet<Node>();
+		for(int i = 0; i < graph.vertices.size(); i++) {
+			hash.add(graph.vertices.get(i));
+		}
+		return hash;
+	}
