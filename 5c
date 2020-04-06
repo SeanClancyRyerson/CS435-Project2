@@ -1,0 +1,15 @@
+	static Graph createRandomCompleteWeightedGraph(final int n) {
+		Graph graf = new Graph();
+		for(int i = 0; i < n; i++) {
+			addNode(graf, Integer.toString(i));
+		}
+		int numEdges = n * (n-1);
+		for(int i = 0; i < numEdges; i++) {
+			int rand1 = (int)(n*Math.random());
+			int rand2 = (int)(n*Math.random());
+			//random weight
+			int rand = (int)(n*Math.random() + 10);
+			addWeightedEdge(graf.vertices.get(rand1), graf.vertices.get(rand2), rand);
+		}
+		return graf;
+	}
