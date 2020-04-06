@@ -1,0 +1,32 @@
+	static void addGridNode(Graph graph, final String nodeVal, final int x, final int y) {
+		Node temp = new Node(nodeVal, x, y);
+		graph.vertices.add(temp);
+	}
+	
+	static void addUndirectedEdge(final Node first, final Node second) {
+		if(Math.abs(first.x - second.x) <= 1 && Math.abs(first.y - second.y) <= 1) {
+			first.neighbors.add(second);
+			second.neighbors.add(first);
+		}
+	}
+	
+	static void removeUndirectedEdge(final Node first, final Node second) {
+		for(int i = 0; i < first.neighbors.size(); i++) {
+			if(first.neighbors.get(i).equals(second)) {
+				first.neighbors.remove(i);
+			}
+		}
+		for(int i = 0; i < second.neighbors.size(); i++) {
+			if(second.neighbors.get(i).equals(first)) {
+				second.neighbors.remove(i);
+			} 
+		}
+	}
+	
+	static HashSet<Node> getAllNodes(Graph graph){
+		HashSet<Node> hash = new HashSet<Node>();
+		for(int i = 0; i < graph.vertices.size(); i++) {
+			hash.add(graph.vertices.get(i));
+		}
+		return hash;
+	}
