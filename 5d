@@ -1,0 +1,10 @@
+	static Graph createLinkedList(final int n) {
+		Graph graf = new Graph();
+		for(int i = 0; i < n; i++) {
+			addNode(graf, Integer.toString(i));
+			if(i != 0) {
+				addWeightedEdge(graf.vertices.get(i-1), graf.vertices.get(i), 1);
+			}
+		}
+		return graf;
+	}
