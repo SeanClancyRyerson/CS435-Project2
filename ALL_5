@@ -1,0 +1,120 @@
+package quatro;
+import java.util.*;
+
+
+class Node {
+	  public String data;
+	  public List<Edge> edges;
+	  private boolean visited;
+
+	  public Node(String data) {
+	    this.data = data;
+	    this.edges = new ArrayList<>();
+	    this.visited = false;
+	  }
+	  
+	  public void setVisited() {
+	    visited = true;
+	  }
+
+	  public boolean getVisited() {
+	    return visited;
+	  }
+}
+
+class Edge {
+	  public Node destination;
+	  public int weight;
+	  
+	  public Edge(Node destination, int weight) {
+		  this.destination = destination;
+		  this.weight = weight;
+	  }
+}
+
+class Graph{
+	public List<Node> vertices;
+	public Graph() {
+		this.vertices = new ArrayList<>();
+	}
+}
+
+public class Cuatro {
+
+	public static void main(String[] args) {
+		
+
+	}
+	
+	static void addNode(Graph graph, final String nodeVal) {
+		Node temp = new Node(nodeVal);
+		graph.vertices.add(temp);
+	}
+	
+	static void addWeightedEdge(final Node first, final Node second, final int edgeWeight) {
+		Edge e = new Edge(second, edgeWeight);
+		first.edges.add(e);
+	}
+	
+	static void removeDirectedEdge(final Node first, final Node second) {
+		for(int i = 0; i < first.edges.size(); i++) {
+			if(first.edges.get(i).destination.equals(second)) {
+				first.edges.remove(i);
+			}
+		}
+	}
+	
+	static HashSet<Node> getAllNodes(Graph graph){
+		HashSet<Node> hash = new HashSet<Node>();
+		for(int i = 0; i < graph.vertices.size(); i++) {
+			hash.add(graph.vertices.get(i));
+		}
+		return hash;
+	}
+	
+	static Graph createRandomCompleteWeightedGraph(final int n) {
+		Graph graf = new Graph();
+		for(int i = 0; i < n; i++) {
+			addNode(graf, Integer.toString(i));
+		}
+		int numEdges = n * (n-1);
+		for(int i = 0; i < numEdges; i++) {
+			int rand1 = (int)(n*Math.random());
+			int rand2 = (int)(n*Math.random());
+			//random weight
+			int rand = (int)(n*Math.random() + 10);
+			addWeightedEdge(graf.vertices.get(rand1), graf.vertices.get(rand2), rand);
+		}
+		return graf;
+	}
+	
+	static Graph createLinkedList(final int n) {
+		Graph graf = new Graph();
+		for(int i = 0; i < n; i++) {
+			addNode(graf, Integer.toString(i));
+			if(i != 0) {
+				addWeightedEdge(graf.vertices.get(i-1), graf.vertices.get(i), 1);
+			}
+		}
+		return graf;
+	}
+	
+	static HashMap<Node, Integer> dijkatras(Graph graph, final Node start){
+		HashMap<Node, Integer> map = new HashMap<Node, Integer>();
+		for(int i = 0; i < graph.vertices.size(); i++) {
+			map.put(graph.vertices.get(i), 999);
+		}
+		map.put(start, 0);
+		Queue<Node> q = new LinkedList<Node>();
+		for(int p = 0; p < graph.vertices.size(); p++) {
+			Node curr = graph.vertices.get(p);
+			for(int i = 0; i < curr.edges.size(); i++) {
+				if(map.get(curr.edges.get(i)) > map.get(curr) + curr.edges.get(i).weight) {
+					map.add(curr.edges.get(i).destination, map.get(curr) + curr.edges.get(i).weight);
+				}
+			}
+		}
+		return map;
+	}
+
+}
