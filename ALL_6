@@ -1,0 +1,105 @@
+package aStar;
+import java.util.*;
+
+class Node {
+	  public String data;
+	  public List<Node> neighbors;
+	  public int x;
+	  public int y;
+	  private boolean visited;
+
+	  public Node(String data, int x, int y) {
+	    this.data = data;
+	    this.neighbors = new ArrayList<>();
+	    this.x = x;
+	    this.y = y;
+	    this.visited = false;
+	  }
+
+	  public void setVisited() {
+	    visited = true;
+	  }
+
+	  public boolean getVisited() {
+	    return visited;
+	  }
+}
+
+class Graph{
+	public List<Node> vertices;
+	public Graph() {
+		this.vertices = new ArrayList<>();
+	}
+}
+
+public class AStar {
+
+	public static void main(String[] args) {
+
+		Graph g = createRandomGridGraph(100);
+		ArrayList<Node> path = astar(g.vertices.get(0), g.vertices.get(9999));
+	}
+	
+	static void addGridNode(Graph graph, final String nodeVal, final int x, final int y) {
+		Node temp = new Node(nodeVal, x, y);
+		graph.vertices.add(temp);
+	}
+	
+	static void addUndirectedEdge(final Node first, final Node second) {
+		if(Math.abs(first.x - second.x) <= 1 && Math.abs(first.y - second.y) <= 1) {
+			first.neighbors.add(second);
+			second.neighbors.add(first);
+		}
+	}
+	
+	static void removeUndirectedEdge(final Node first, final Node second) {
+		for(int i = 0; i < first.neighbors.size(); i++) {
+			if(first.neighbors.get(i).equals(second)) {
+				first.neighbors.remove(i);
+			}
+		}
+		for(int i = 0; i < second.neighbors.size(); i++) {
+			if(second.neighbors.get(i).equals(first)) {
+				second.neighbors.remove(i);
+			} 
+		}
+	}
+	
+	static HashSet<Node> getAllNodes(Graph graph){
+		HashSet<Node> hash = new HashSet<Node>();
+		for(int i = 0; i < graph.vertices.size(); i++) {
+			hash.add(graph.vertices.get(i));
+		}
+		return hash;
+	}
+	
+	static Graph createRandomGridGraph(int n) {
+		Graph graf = new Graph();
+		Random rand = new Random();
+		int dataTemp = 0;
+		for(int i = 0; i < n; i++) {
+			for(int p = 0; p < n; p++) {
+				addGridNode(graf, String.valueOf(dataTemp), i, p);
+				dataTemp++;
+				//check to see if goes to the right
+				if(rand.nextBoolean() && p > 0) {
+					addUndirectedEdge(graf.vertices.get(i*n + p - 1), graf.vertices.get(i*n + p));
+				}
+				//check to see if goes bottom
+				if(rand.nextBoolean() && i > 0) {
+					addUndirectedEdge(graf.vertices.get(i*n + p), graf.vertices.get(i*n-i + p));
+				}
+			}
+
+		}
+		return graf;
+	}
+	
+	static ArrayList<Node> astar(final Node sourceNode, final Node destNode){
+		ArrayList<Node> order = new ArrayList<Node>();
+		
+		return order;
+	}
+	
+
+}
