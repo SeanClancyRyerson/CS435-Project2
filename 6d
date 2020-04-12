@@ -1,0 +1,22 @@
+	static ArrayList<Node> astar(final Node sourceNode, final Node destNode){
+		ArrayList<Node> order = new ArrayList<Node>();
+		Stack<Node> s = new Stack<Node>();
+		Node temp = sourceNode;
+		s.push(temp);
+		int min = Integer.MAX_VALUE;
+		while(!temp.equals(destNode)) {
+			temp = s.pop();
+			Node toPersue = temp;
+			for(int i = 0; i < temp.neighbors.size(); i++) {
+				if((destNode.x - temp.x + destNode.y - temp.y) < min && !temp.neighbors.get(i).getVisited()) {
+					toPersue = temp.neighbors.get(i);
+				}
+				else if (!temp.neighbors.get(i).getVisited()) {
+					s.push(temp.neighbors.get(i));
+				}
+			}
+			s.push(toPersue);
+			order.add(toPersue);
+		}
+		return order;
+	}
