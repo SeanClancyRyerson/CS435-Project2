@@ -1,1 +1,171 @@
+package thankUVertext;
+import java.util.*;
+
+//class Node and Graph taken from the repl as a baseline
+class Node {
+	  public String data;
+	  public List<Node> neighbors;
+	  public List<Node> incoming;
+	  private boolean visited;
+
+	  public Node(String data) {
+	    this.data = data;
+	    this.neighbors = new ArrayList<>();
+	    this.incoming = new ArrayList<>();
+	    this.visited = false;
+	  }
+
+	  public void setVisited() {
+	    visited = true;
+	  }
+
+	  public boolean getVisited() {
+	    return visited;
+	  }
+}
+
+class Graph{
+	public List<Node> vertices;
+	public Graph() {
+		this.vertices = new ArrayList<>();
+	}
+}
+
+public class ThankUVertext {
+
+	public static void main(String[] args) {
+		Graph graf = createRandomDAGIter(10);
+		printGraph(graf);
+		System.out.println();
+		ArrayList<Node> arr = Kahns(graf);
+		System.out.print(arr);
+	}
+	
+	static void printGraph(Graph graph) {
+		for(int i = 0; i < graph.vertices.size(); i++) {
+			System.out.print(graph.vertices.get(i).data + ": ");
+			for(int j = 0; j < graph.vertices.get(i).neighbors.size(); j++) {
+				System.out.print(graph.vertices.get(i).neighbors.get(j).data + ", ");
+			}
+			System.out.print("\n");
+		}
+	}
+	
+	static void addNode(Graph graph, final String nodeVal) {
+		Node temp = new Node(nodeVal);
+		graph.vertices.add(temp);
+	}
+	
+	static void addDirectedEdge(final Node first, final Node second) {
+		first.neighbors.add(second);
+		second.incoming.add(first);
+	}
+	
+	static void removeDirectedEdge(final Node first, final Node second) {
+		for(int i = 0; i < first.neighbors.size(); i++) {
+			if(first.neighbors.get(i).data.equals(second.data)) {
+				first.neighbors.remove(i);
+			}
+		}
+		for(int i = 0; i < second.incoming.size(); i++) {
+			if(second.incoming.get(i).data.equals(first.data)){
+				second.incoming.remove(i);
+			}
+		}
+	}
+	
+	static HashSet<Node> getAllNodes(Graph graph){
+		HashSet<Node> hash = new HashSet<Node>();
+		for(int i = 0; i < graph.vertices.size(); i++) {
+			hash.add(graph.vertices.get(i));
+		}
+		return hash;
+	}
+	
+	static Graph createRandomDAGIter(final int n) {
+		Graph graf = new Graph();
+		for(int i = 0; i < n; i++) {
+			addNode(graf, Integer.toString(i));
+		}
+		//number of edges
+		int rand = (int)(n*Math.random() + 10);
+		
+		for(int i = 0; i < rand; i++) {
+			int rand1 = (int)(n*Math.random());
+			int rand2 = (int)(n*Math.random());
+			
+			addDirectedEdge(graf.vertices.get(rand1), graf.vertices.get(rand2));
+			
+		}
+		return graf;
+	}
+	
+	static ArrayList<Node> Kahns(final Graph graph){
+		ArrayList<Node> order = new ArrayList<Node>();
+		int[] arr = new int[graph.vertices.size()];
+		for(int i = 0; i < arr.length; i++) {
+			arr[i] = graph.vertices.get(i).incoming.size();
+		}
+		Queue<Node> q = new LinkedList<>();
+		//check for any nodes that have no incoming edges
+		for(int i = 0; i < arr.length; i++) {
+			if(arr[i] == 0) {
+				q.add(graph.vertices.get(i));
+			}
+		}
+		while(!(q.isEmpty())) {
+			Node temp = q.poll();
+			order.add(temp);
+			for(int i = 0; i < temp.neighbors.size(); i++) {
+				int neigh = Integer.parseInt(temp.neighbors.get(i).data);
+				arr[neigh] = arr[neigh] - 1;
+			}
+			for(int i = 0; i < arr.length; i++) {
+				if(arr[i] == 0) {
+					q.add(graph.vertices.get(i));
+				}
+			}
+		}
+		return order;
+	}
+	
+	static ArrayList<Node> mDFS(final Graph graph){
+		ArrayList<Node> order = new ArrayList<Node>();
+		Stack<Node> reverse = new Stack<>();
+		Stack<Node> s = new Stack<>();
+		for(int i = 0; i < graph.vertices.size(); i++) {
+			if(!graph.vertices.get(i).getVisited()) {
+				s.push(graph.vertices.get(i));
+			}
+			while(!s.isEmpty()) {
+				Node temp = s.pop();
+				if(!temp.getVisited()) {
+					temp.setVisited();
+					for(int p = 0; p < temp.neighbors.size(); p++) {
+						s.push(temp.neighbors.get(p));
+					}
+					reverse.add(temp);
+				}
+			}
+		}
+		while(!(reverse.isEmpty())) {
+			order.add(reverse.pop());
+		}
+		return order;
+	}
+
+}
+
+class TopSort{
+	static ArrayList<Node> Kahns(final Graph graph){
+		int[] arr = new int[graph.vertices.size()];
+		for(int i = 0; i < arr.length; i++) {
+			arr[i] = graph.vertices.get(i).incoming.size();
+		}
+		for(int i = 0; i < arr.length; i++) {
+			System.out.print(arr[i] + ", ");
+		}
+		return null;
+	}
+}
 
