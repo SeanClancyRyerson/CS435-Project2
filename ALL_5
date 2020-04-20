@@ -1,25 +1,24 @@
 package quatro;
 import java.util.*;
 
-
 class Node {
-	  public String data;
-	  public List<Edge> edges;
-	  private boolean visited;
+	public String data;
+	public List<Edge> edges;
+	private boolean visited;
 
-	  public Node(String data) {
-	    this.data = data;
-	    this.edges = new ArrayList<>();
-	    this.visited = false;
-	  }
-	  
-	  public void setVisited() {
-	    visited = true;
-	  }
+	public Node(String data) {
+	this.data = data;
+	this.edges = new ArrayList<>();
+	this.visited = false;
+	}
 
-	  public boolean getVisited() {
-	    return visited;
-	  }
+	public void setVisited() {
+	visited = true;
+	}
+
+	public boolean getVisited() {
+	return visited;
+	}
 }
 
 class Edge {
@@ -41,11 +40,6 @@ class Graph{
 
 public class Cuatro {
 
-	public static void main(String[] args) {
-		
-
-	}
-	
 	static void addNode(Graph graph, final String nodeVal) {
 		Node temp = new Node(nodeVal);
 		graph.vertices.add(temp);
