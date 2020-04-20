@@ -22,6 +22,11 @@ class Node {
 	  public boolean getVisited() {
 	    return visited;
 	  }
+	  
+	  public boolean isVisited() {
+	    return visited;
+	  }
+}
 }
 
 class Graph{
