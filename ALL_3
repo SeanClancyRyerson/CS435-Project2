@@ -17,6 +17,13 @@ class Node {
 	  public void setVisited() {
 	    visited = true;
 	  }
+	  
+	  public void setVisited(boolean state) {
+	  	if(state == true)
+	    		visited = true;
+		else
+			visited = false;
+	  }
 
 	  public boolean getVisited() {
 	    return visited;
@@ -31,11 +38,7 @@ class Graph{
 }
 
 public class TraverseThisTown {
-	
-	
-	
-	public static void main(String[] args) {
-		
+	public static void main(String[] args) {	
 		Graph graph = new Graph();
 		addNode(graph, "a");
 		addNode(graph, "b");
@@ -100,11 +103,10 @@ public class TraverseThisTown {
 	
 	static Graph createLinkedList(int n) {
 		Graph graf = new Graph();
-		for(int i = 0; i < n; i++) {
+		addNode(graf, "0");
+		for(int i = 1; i < n; i++) {
 			addNode(graf, Integer.toString(i));
-			if(i != 0) {
-				addUndirectedEdge(graf.vertices.get(i-1), graf.vertices.get(i));
-			}
+			addUndirectedEdge(graf.vertices.get(i-1), graf.vertices.get(i));
 		}
 		return graf;
 	}
@@ -114,6 +116,9 @@ public class TraverseThisTown {
 class GraphSearch{
 	
 	static ArrayList<Node> DFSRec(final Node start, final Node end){
+		for(int i = 0; i < graph.verticies.length; i++){
+			graph.vertices.get(i).setVisited(false);
+		}
 		ArrayList<Node> path = new ArrayList<Node>();
 		return DFShelper(start, end, path);
 	}
@@ -121,21 +126,18 @@ class GraphSearch{
 	static ArrayList<Node> DFShelper(Node start, Node end, ArrayList<Node> path){
 		path.add(start);
 		start.setVisited();
-			if(start.equals(end)) {
-				return path;
-			}
-			else {
-				for(int i = 0; i < start.neighbors.size(); i++) {
-					if(!(start.neighbors.get(i).getVisited())){
-							DFSRec(start.neighbors.get(i), end);
-					}
-				}
-			}
-			return null;
+		if(!start.equals(end)) 
+		    for(int i = 0; i < start.neighbors.size(); i++) 
+			if(!(start.neighbors.get(i).getVisited()))
+			    DFSRec(start.neighbors.get(i), end);
+		else 
+		    return path;
 	}
-	
-	
+		
 	static ArrayList<Node> DFSIter(final Node start, final Node end){
+		for(int i = 0; i < graph.verticies.length; i++){
+			graph.vertices.get(i).setVisited(false);
+		}
 		ArrayList<Node> path = new ArrayList<Node>();
 		Stack<Node> s = new Stack<>();
 		s.push(start);
@@ -156,6 +158,9 @@ class GraphSearch{
 	}
 	
 	static ArrayList<Node> BFSRec(final Graph graph){
+		for(int i = 0; i < graph.verticies.length; i++){
+			graph.vertices.get(i).setVisited(false);
+		}
 		ArrayList<Node> arr = new ArrayList<Node>();
 		Queue<Node> q = new LinkedList<>();
 		for(int i = 0; i < graph.vertices.size(); i++) {
@@ -185,6 +190,9 @@ class GraphSearch{
 	}
 	
 	static ArrayList<Node> BFSIter(final Graph graph){
+		for(int i = 0; i < graph.verticies.length; i++){
+			graph.vertices.get(i).setVisited(false);
+		}
 		ArrayList<Node> arr = new ArrayList<Node>();
 		Queue<Node> q = new LinkedList<>();
 			graph.vertices.get(0).setVisited();
@@ -198,11 +206,9 @@ class GraphSearch{
 						arr.add(temp.neighbors.get(i));
 						q.add(temp.neighbors.get(i));
 						temp.neighbors.get(i).setVisited();
-					}
-						
+					}					
 				}
 			}
 			return arr;
 	}
-	
 }
